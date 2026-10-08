@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery Tracker | Food Rescue Admin</title>
+    <meta name="description" content="Track all volunteer pickup and delivery assignments across the platform.">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo"><a href="../index.html" class="logo-link">♻ Food Rescue</a></div>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="dashboard.html">Admin Dashboard</a>
+            <a href="allocations.html">Allocations</a>
+            <a href="deliveries.html" class="active">Deliveries</a>
+            <a href="history.html">History</a>
+            <a href="users.html">Users</a>
+            <a href="javascript:void(0)" onclick="logout()" class="nav-logout-btn">Logout</a>
+        </nav>
+    </header>
+
+    <main class="dashboard">
+
+        <div class="dashboard-header">
+            <div>
+                <h1>Delivery Tracker</h1>
+                <p>Monitor all volunteer pickup and delivery assignments in real time.</p>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <section class="dashboard-stats">
+            <div class="dashboard-card" style="border-top:4px solid #f59e0b;">
+                <h3>Assigned</h3>
+                <h2 id="dstatAssigned">—</h2>
+                <p>Pending pickup</p>
+            </div>
+            <div class="dashboard-card" style="border-top:4px solid #0ea5e9;">
+                <h3>In Transit</h3>
+                <h2 id="dstatTransit">—</h2>
+                <p>Being delivered</p>
+            </div>
+            <div class="dashboard-card" style="border-top:4px solid #16a34a;">
+                <h3>Delivered</h3>
+                <h2 id="dstatDelivered">—</h2>
+                <p>Successfully done</p>
+            </div>
+            <div class="dashboard-card" style="border-top:4px solid #e11d48;">
+                <h3>Cancelled</h3>
+                <h2 id="dstatCancelled">—</h2>
+                <p>Cancelled deliveries</p>
+            </div>
+        </section>
+
+        <!-- Filter Tabs -->
+        <div class="filter-tabs-bar" style="margin-bottom:20px; gap:10px; flex-wrap:wrap;">
+            <button class="filter-tab active" onclick="filterAdminDeliveries('ALL', this)">
+                All <span class="tab-count" id="adcntAll">0</span>
+            </button>
+            <button class="filter-tab" onclick="filterAdminDeliveries('UNASSIGNED', this)">
+                🟠 Unassigned <span class="tab-count" id="adcntUnassigned">0</span>
+            </button>
+            <button class="filter-tab" onclick="filterAdminDeliveries('ASSIGNED', this)">
+                Assigned <span class="tab-count" id="adcntAssigned">0</span>
+            </button>
+            <button class="filter-tab" onclick="filterAdminDeliveries('PICKED_UP', this)">
+                In Transit <span class="tab-count" id="adcntPickedUp">0</span>
+            </button>
+            <button class="filter-tab" onclick="filterAdminDeliveries('DELIVERED', this)">
+                Delivered <span class="tab-count" id="adcntDelivered">0</span>
+            </button>
+            <button class="filter-tab" onclick="filterAdminDeliveries('CANCELLED', this)">
+                Cancelled <span class="tab-count" id="adcntCancelled">0</span>
+            </button>
+            <input type="text" id="deliverySearch" class="search-input"
+                placeholder="🔍 Search food, volunteer, donor..."
+                oninput="searchAdminDeliveries(this.value)" style="min-width:220px; margin-left:auto;">
+        </div>
+
+        <!-- Loading -->
+        <div id="adminDeliveriesLoading" class="vol-loading-state">
+            <div class="vol-spinner"></div>
+            <p>Loading deliveries...</p>
+        </div>
+
+        <!-- Delivery Cards Grid -->
+        <div id="adminDeliveryCards" class="delivery-cards-grid" style="display:none;"></div>
+
+        <!-- Empty State -->
+        <div id="adminDeliveriesEmpty" class="empty-state" style="display:none;">
+            <div class="empty-icon">🚚</div>
+            <h3>No Deliveries Found</h3>
+            <p>No deliveries match the current filter.</p>
+        </div>
+
+    </main>
+
+    <!-- Assign Volunteer Modal -->
+    <div id="assignVolunteerModal" class="modal-overlay" style="display:none;">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>👤 Assign Volunteer to Delivery</h3>
+                <button class="modal-close" onclick="closeAssignModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <p>Select a volunteer to assign to this unassigned pickup delivery.</p>
+                <div id="assignDeliveryInfo" style="background:#f8fafc; border-radius:8px; padding:12px; margin:12px 0; font-size:14px;"></div>
+                <div class="form-group" style="margin-top:14px;">
+                    <label for="assignVolunteerSelect">Select Volunteer *</label>
+                    <select id="assignVolunteerSelect" required>
+                        <option value="">-- Loading volunteers... --</option>
+                    </select>
+                </div>
+                <input type="hidden" id="assignDeliveryId">
+            </div>
+            <div class="modal-footer">
+                <button class="secondary-button" onclick="closeAssignModal()">Cancel</button>
+                <button class="primary-button" id="btnConfirmAssign" onclick="submitVolunteerAssignment()">
+                    ✅ Assign Volunteer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer><p>© 2026 Food Rescue &amp; Donation Management System</p></footer>
+    <script src="../js/script.js"></script>
+</body>
+</html>

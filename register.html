@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account | Food Rescue & Donation Management System</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="auth-body">
+
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="logo">
+            <a href="index.html" class="logo-link">♻ Food Rescue</a>
+        </div>
+        <nav id="mainNav">
+            <a href="index.html">Home</a>
+            <a href="index.html#about">About</a>
+            <a href="index.html#how-it-works">How It Works</a>
+            <a href="login.html" class="nav-btn-highlight">Login</a>
+        </nav>
+    </header>
+
+    <!-- Auth Page Main -->
+    <main class="auth-page">
+        <div class="auth-container register-container">
+            
+            <!-- Form Header & Status Bar -->
+            <div class="auth-header">
+                <div class="header-top-row">
+                    <div class="auth-icon-title">
+                        <span class="auth-icon">📝</span>
+                        <h1>Create Account</h1>
+                    </div>
+                    <div class="connection-status-container">
+                        <div id="backendStatusBadge" class="backend-status-badge checking">
+                            <span class="status-dot"></span> Checking connection...
+                        </div>
+                        <button type="button" id="btnCheckBackend" class="btn-check-backend" title="Test Backend Connection">
+                            🔄 Check Backend
+                        </button>
+                    </div>
+                </div>
+                <p>Join our mission to eliminate food waste and feed communities.</p>
+            </div>
+
+            <!-- Register Form -->
+            <form id="registerForm" class="auth-form" novalidate>
+                
+                <!-- Role Selection -->
+                <div class="form-section-auth">
+                    <label class="form-label-bold">Select Your Role</label>
+                    <div class="role-selector-grid">
+                        <label class="role-card active" onclick="selectRole(this, 'DONOR')">
+                            <input type="radio" name="regRole" value="DONOR" checked>
+                            <span class="role-icon">🍱</span>
+                            <span class="role-title">Food Donor</span>
+                            <span class="role-desc">Restaurants, Hotels, Caterers, Households</span>
+                        </label>
+                        <label class="role-card" onclick="selectRole(this, 'NGO')">
+                            <input type="radio" name="regRole" value="NGO">
+                            <span class="role-icon">🤝</span>
+                            <span class="role-title">NGO / Charity</span>
+                            <span class="role-desc">Shelters, Community Kitchens, Trusts</span>
+                        </label>
+                        <label class="role-card" onclick="selectRole(this, 'VOLUNTEER')">
+                            <input type="radio" name="regRole" value="VOLUNTEER">
+                            <span class="role-icon">🚴</span>
+                            <span class="role-title">Volunteer</span>
+                            <span class="role-desc">Pickup and transport food to recipients</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Account Information -->
+                <div class="form-section-auth">
+                    <h3 class="auth-section-title">Personal & Organization Info</h3>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="regName">Full Name / Contact Person *</label>
+                            <div class="input-with-icon">
+                                <span class="input-icon">👤</span>
+                                <input
+                                    type="text"
+                                    id="regName"
+                                    placeholder="e.g. John Doe"
+                                    required
+                                    autocomplete="name"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="form-group" id="groupOrgName">
+                            <label for="regOrgName" id="labelOrgName">Organization / Business Name</label>
+                            <div class="input-with-icon">
+                                <span class="input-icon">🏢</span>
+                                <input
+                                    type="text"
+                                    id="regOrgName"
+                                    placeholder="e.g. Sunrise Bakery & Cafe"
+                                >
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="regEmail">Email Address *</label>
+                            <div class="input-with-icon">
+                                <span class="input-icon">✉️</span>
+                                <input
+                                    type="email"
+                                    id="regEmail"
+                                    placeholder="e.g. name@example.com"
+                                    required
+                                    autocomplete="email"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="regPhone">Phone Number</label>
+                            <div class="input-with-icon">
+                                <span class="input-icon">📞</span>
+                                <input
+                                    type="tel"
+                                    id="regPhone"
+                                    placeholder="e.g. 9876543210"
+                                    autocomplete="tel"
+                                >
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="regCity">City</label>
+                            <div class="input-with-icon">
+                                <span class="input-icon">📍</span>
+                                <input
+                                    type="text"
+                                    id="regCity"
+                                    placeholder="e.g. Bangalore"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="regAddress">Full Address</label>
+                            <div class="input-with-icon">
+                                <span class="input-icon">🏠</span>
+                                <input
+                                    type="text"
+                                    id="regAddress"
+                                    placeholder="Street, locality, landmark"
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Security / Password Information -->
+                <div class="form-section-auth">
+                    <h3 class="auth-section-title">Account Security</h3>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="regPassword">Password (minimum 6 characters) *</label>
+                            <div class="input-with-icon">
+                                <span class="input-icon">🔒</span>
+                                <input
+                                    type="password"
+                                    id="regPassword"
+                                    placeholder="Create password"
+                                    required
+                                    autocomplete="new-password"
+                                    minlength="6"
+                                    oninput="updatePasswordStrength(this.value)"
+                                >
+                                <button type="button" class="btn-toggle-password" onclick="togglePasswordVisibility('regPassword', this)">
+                                    👁️
+                                </button>
+                            </div>
+                            <div class="password-strength-bar">
+                                <div id="strengthIndicator" class="strength-meter"></div>
+                            </div>
+                            <div id="strengthText" class="strength-label">Enter a password</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="regConfirmPassword">Confirm Password *</label>
+                            <div class="input-with-icon">
+                                <span class="input-icon">🔒</span>
+                                <input
+                                    type="password"
+                                    id="regConfirmPassword"
+                                    placeholder="Repeat password"
+                                    required
+                                    autocomplete="new-password"
+                                    minlength="6"
+                                    oninput="checkPasswordMatch()"
+                                >
+                                <button type="button" class="btn-toggle-password" onclick="togglePasswordVisibility('regConfirmPassword', this)">
+                                    👁️
+                                </button>
+                            </div>
+                            <div id="passwordMatchMessage" class="field-feedback"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row-between">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="termsCheck" required checked>
+                        <span>I agree to the Food Rescue donation guidelines & safety standards.</span>
+                    </label>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="primary-button btn-auth-submit">
+                        Create Account & Get Started
+                    </button>
+                </div>
+            </form>
+
+            <div class="auth-footer-links">
+                <p>Already have an account? <a href="login.html">Sign in here</a></p>
+                <p><a href="index.html">← Back to Home</a></p>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 Food Rescue & Donation Management System</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>

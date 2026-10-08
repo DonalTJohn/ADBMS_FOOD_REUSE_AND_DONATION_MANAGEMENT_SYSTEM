@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Allocation & Matching Studio | Food Rescue</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header class="navbar">
+        <div class="logo">
+            <a href="../index.html" class="logo-link">♻ Food Rescue</a>
+        </div>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="dashboard.html">Admin Dashboard</a>
+            <a href="allocations.html" class="active">Allocations</a>
+            <a href="deliveries.html">Deliveries</a>
+            <a href="history.html">History</a>
+            <a href="users.html">Users</a>
+            <a href="javascript:void(0)" onclick="logout()" class="nav-logout-btn">Logout</a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="dashboard">
+
+        <!-- Page Header -->
+        <div class="dashboard-header">
+            <div>
+                <h1>Food Matching & Allocation Studio</h1>
+                <p>Intelligently match surplus food donations from restaurants with community NGO requests.</p>
+            </div>
+
+            <div class="header-actions-group">
+                <div class="connection-status-container">
+                    <div id="backendStatusBadge" class="backend-status-badge checking">
+                        <span class="status-dot"></span> Checking connection...
+                    </div>
+                    <button type="button" id="btnCheckBackend" class="btn-check-backend" title="Test Backend Connection">
+                        🔄 Check Backend
+                    </button>
+                </div>
+
+                <button type="button" id="btnAutoMatch" class="primary-button" onclick="triggerAutoMatch()" style="background:#0284c7;">
+                    ⚡ Run Auto-Match Engine
+                </button>
+            </div>
+        </div>
+
+        <!-- Metrics Ribbon -->
+        <section class="dashboard-stats">
+            <div class="dashboard-card">
+                <h3>Total Allocations</h3>
+                <h2 id="statTotalAlloc">0</h2>
+                <p>All recorded allocations</p>
+            </div>
+
+            <div class="dashboard-card">
+                <h3>Pending Pickup</h3>
+                <h2 id="statPendingPickup">0</h2>
+                <p>Waiting for volunteer dispatch</p>
+            </div>
+
+            <div class="dashboard-card">
+                <h3>In Transit</h3>
+                <h2 id="statInTransit">0</h2>
+                <p>Volunteers delivering food</p>
+            </div>
+
+            <div class="dashboard-card">
+                <h3>Delivered & Complete</h3>
+                <h2 id="statCompletedAlloc">0</h2>
+                <p>Successfully distributed</p>
+            </div>
+        </section>
+
+        <!-- Studio Main Layout: Manual Matchmaker & AI Suggestions -->
+        <section class="matchmaker-section">
+            
+            <!-- Left: Manual Pairing Box -->
+            <div class="match-card-panel">
+                <div class="panel-header">
+                    <h2>🎯 Manual Food Allocation</h2>
+                    <p>Select an available food donation and match it with a pending NGO requirement.</p>
+                </div>
+
+                <form id="manualAllocationForm" onsubmit="handleManualAllocation(event)">
+                    <div class="form-group">
+                        <label for="allocDonationSelect">1. Select Available Food Donation *</label>
+                        <select id="allocDonationSelect" required onchange="onDonationSelectChanged()">
+                            <option value="">-- Choose Available Donation --</option>
+                        </select>
+                        <small id="donationHelpText" class="field-help"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="allocRequestSelect">2. Select Pending NGO Food Request *</label>
+                        <select id="allocRequestSelect" required onchange="onRequestSelectChanged()">
+                            <option value="">-- Choose Pending Request --</option>
+                        </select>
+                        <small id="requestHelpText" class="field-help"></small>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="allocQuantity">Allocated Quantity *</label>
+                            <input type="number" id="allocQuantity" min="1" step="any" placeholder="e.g. 20" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Unit</label>
+                            <input type="text" id="allocUnitDisplay" value="units" readonly style="background:#f1f5f9; cursor:not-allowed;">
+                        </div>
+                    </div>
+
+                    <div class="form-actions" style="margin-top: 15px;">
+                        <button type="submit" class="primary-button" style="width: 100%;">
+                            🤝 Confirm & Allocate Food
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Right: Smart Suggested Matches -->
+            <div class="match-card-panel suggestions-panel">
+                <div class="panel-header">
+                    <h2>💡 Smart Match Suggestions</h2>
+                    <p>Algorithm-ranked compatibility between available food and pending requirements.</p>
+                </div>
+
+                <div id="suggestionsList" class="suggestions-list-container">
+                    <div class="table-loading">
+                        <div class="loading-spinner"></div> Loading smart matches...
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Allocations Directory & History Section -->
+        <section class="dashboard-section" style="margin-top: 35px;">
+            <div class="section-heading">
+                <div>
+                    <h2>Active Allocations & History</h2>
+                    <p style="font-size:13px; color:#64748b; margin:2px 0 0 0;">Track all assigned food pairings and volunteer delivery handoffs.</p>
+                </div>
+            </div>
+
+            <!-- Filter Tabs & Search -->
+            <div class="toolbar-section">
+                <div class="filter-tabs">
+                    <button type="button" class="filter-tab active" onclick="filterAllocations('ALL', this)">
+                        All (<span id="countAllocAll">0</span>)
+                    </button>
+                    <button type="button" class="filter-tab" onclick="filterAllocations('ALLOCATED', this)">
+                        🟡 Pending Pickup (<span id="countAllocPending">0</span>)
+                    </button>
+                    <button type="button" class="filter-tab" onclick="filterAllocations('PICKED_UP', this)">
+                        🚚 In Transit (<span id="countAllocTransit">0</span>)
+                    </button>
+                    <button type="button" class="filter-tab" onclick="filterAllocations('COMPLETED', this)">
+                        🟢 Completed (<span id="countAllocCompleted">0</span>)
+                    </button>
+                    <button type="button" class="filter-tab" onclick="filterAllocations('CANCELLED', this)">
+                        ⚪ Cancelled (<span id="countAllocCancelled">0</span>)
+                    </button>
+                </div>
+
+                <div class="search-box">
+                    <input
+                        type="text"
+                        id="searchAllocationsInput"
+                        placeholder="🔍 Search by food, donor, or NGO..."
+                        oninput="searchAllocations(this.value)"
+                    >
+                </div>
+            </div>
+
+            <!-- Table -->
+            <div class="table-container">
+                <table id="allocationsTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Food Details</th>
+                            <th>Allocated Qty</th>
+                            <th>Donor (Pickup)</th>
+                            <th>NGO (Delivery)</th>
+                            <th>Priority</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="allocationsTableBody">
+                        <tr>
+                            <td colspan="9" class="table-loading">
+                                <div class="loading-spinner"></div> Loading allocations...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Empty State Container -->
+            <div id="emptyAllocationsState" class="empty-state" style="display: none;">
+                <div class="empty-icon">📦</div>
+                <h3>No Allocations Found</h3>
+                <p>No food allocations match your active filter. Use the Smart Matchmaker above or click "Run Auto-Match".</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 Food Rescue & Donation Management System</p>
+    </footer>
+
+    <script src="../js/script.js"></script>
+</body>
+
+</html>

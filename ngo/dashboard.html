@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NGO Dashboard | Food Rescue</title>
+    <meta name="description" content="NGO dashboard to request food, browse active surplus donations, and track allocations.">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="logo">
+            <a href="../index.html" class="logo-link">♻ Food Rescue</a>
+        </div>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="dashboard.html" class="active">Dashboard</a>
+            <a href="my-requests.html">My Requests</a>
+            <a href="create-request.html">+ Request Food</a>
+            <a href="available-food.html">Available Food</a>
+            <a href="../profile.html">⚙️ Profile</a>
+            <a href="javascript:void(0)" onclick="logout()" class="nav-logout-btn">Logout</a>
+        </nav>
+    </header>
+
+    <!-- Main Dashboard -->
+    <main class="dashboard ngo-dashboard-page">
+
+        <!-- Dedicated NGO Hero Header -->
+        <div class="dashboard-header ngo-hero-header">
+            <div>
+                <div class="ngo-badge-row">
+                    <span class="ngo-role-badge">🤝 NGO COMMUNITY RELIEF HUB</span>
+                    <span class="ngo-status-indicator">● Relief &amp; Meal Operations Active</span>
+                </div>
+                <h1>Community Relief &amp; Food Request Management</h1>
+                <p id="ngoWelcomeMsg">Welcome back! Submit food requirements, claim fresh surplus before expiration, and manage community distributions.</p>
+            </div>
+
+            <div class="header-actions-group">
+                <div class="connection-status-container">
+                    <div id="backendStatusBadge" class="backend-status-badge checking">
+                        <span class="status-dot"></span> Checking connection...
+                    </div>
+                    <button type="button" id="btnCheckBackend" class="btn-check-backend" title="Test Backend Connection">
+                        🔄 Check Backend
+                    </button>
+                </div>
+
+                <a href="create-request.html" class="primary-button text-decoration-none">
+                    + Request Food
+                </a>
+            </div>
+        </div>
+
+        <!-- Food Rescue Urgency Notice -->
+        <div class="info-banner ngo-freshness-banner">
+            <div class="banner-icon">⚡</div>
+            <div class="banner-text">
+                <strong>Rescue Surplus Before Expiry:</strong>
+                Donors post fresh edible food with limited shelf-lives. Claim available surplus promptly to prevent food from expiring and turning to waste!
+            </div>
+            <a href="available-food.html" class="btn-banner-action">
+                🍱 Browse Available Food
+            </a>
+        </div>
+
+        <!-- Statistics Cards (5 Cards) -->
+        <section class="dashboard-stats ngo-stats-grid">
+            <div class="dashboard-card ngo-kpi-card" style="border-top: 4px solid #2e7d32;">
+                <h3>Total Requests</h3>
+                <h2 id="ngoStatTotal">0</h2>
+                <p>All time requests</p>
+            </div>
+
+            <div class="dashboard-card ngo-kpi-card" style="border-top: 4px solid #f59e0b;">
+                <h3>Pending Match</h3>
+                <h2 id="ngoStatPending">0</h2>
+                <p>Awaiting donor donation</p>
+            </div>
+
+            <div class="dashboard-card ngo-kpi-card" style="border-top: 4px solid #0ea5e9;">
+                <h3>In Route</h3>
+                <h2 id="ngoStatAllocated">0</h2>
+                <p>Matched &amp; with volunteer</p>
+            </div>
+
+            <div class="dashboard-card ngo-kpi-card" style="border-top: 4px solid #16a34a;">
+                <h3>Fulfilled</h3>
+                <h2 id="ngoStatFulfilled">0</h2>
+                <p>Delivered to beneficiaries</p>
+            </div>
+
+            <div class="dashboard-card ngo-kpi-card" style="border-top: 4px solid #7c3aed;">
+                <h3>Available Surplus</h3>
+                <h2 id="ngoStatAvailableSurplus">—</h2>
+                <p>Fresh batches ready to claim</p>
+            </div>
+        </section>
+
+        <!-- Recent Requests Section -->
+        <section class="dashboard-section">
+            <div class="section-heading">
+                <h2>Recent Food Requests</h2>
+                <a href="my-requests.html">View All &amp; Track</a>
+            </div>
+
+            <div class="table-container">
+                <table id="ngoRecentTable">
+                    <thead>
+                        <tr>
+                            <th>Food Requested</th>
+                            <th>Quantity</th>
+                            <th>Required By</th>
+                            <th>Priority</th>
+                            <th>Delivery Point</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ngoRecentTableBody">
+                        <tr>
+                            <td colspan="6" class="table-loading">
+                                <div class="loading-spinner"></div> Loading recent requests...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Quick Actions Grid -->
+        <section class="quick-actions">
+            <h2>Quick Actions</h2>
+            <div class="action-grid">
+                <div class="action-card">
+                    <h3>🍲 Submit Food Request</h3>
+                    <p>Post your community's required food items, quantities, and urgency.</p>
+                    <a href="create-request.html" class="primary-button text-decoration-none display-inline-block">
+                        Create Request
+                    </a>
+                </div>
+
+                <div class="action-card">
+                    <h3>🍱 Available Food Catalog</h3>
+                    <p>Browse active surplus food posted by restaurants and claim items instantly.</p>
+                    <a href="available-food.html" class="secondary-button text-decoration-none display-inline-block">
+                        Browse Food
+                    </a>
+                </div>
+
+                <div class="action-card">
+                    <h3>📋 Track All Requests</h3>
+                    <p>Monitor real-time fulfillment, allocation history, and cancel unneeded requests.</p>
+                    <a href="my-requests.html" class="secondary-button text-decoration-none display-inline-block">
+                        My Requests
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 Food Rescue &amp; Donation Management System</p>
+    </footer>
+
+    <script src="../js/script.js"></script>
+
+</body>
+
+</html>

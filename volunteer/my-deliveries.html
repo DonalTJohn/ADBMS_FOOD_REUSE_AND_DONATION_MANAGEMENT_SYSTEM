@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Deliveries | Food Rescue Volunteer</title>
+    <meta name="description" content="View, manage and confirm all your food pickup and delivery tasks.">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header class="navbar">
+        <div class="logo">
+            <a href="../index.html" class="logo-link">♻ Food Rescue</a>
+        </div>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="my-deliveries.html" class="active">My Deliveries</a>
+            <a href="javascript:void(0)" onclick="logout()" class="nav-logout-btn">Logout</a>
+        </nav>
+    </header>
+
+    <!-- Page Content -->
+    <main class="dashboard">
+
+        <div class="dashboard-header">
+            <div>
+                <h1>My Deliveries</h1>
+                <p>Manage your food pickup and delivery assignments.</p>
+            </div>
+        </div>
+
+        <!-- Available Pickups to Claim -->
+        <section class="dashboard-section" style="margin-bottom: 32px;">
+            <div class="section-heading">
+                <h2>🚦 Available Pickups to Claim</h2>
+                <span id="availPickupCount" style="font-size:13px; color:#64748b;"></span>
+            </div>
+            <p style="font-size:13px; color:#64748b; margin: -8px 0 16px 0;">Open pickup requests from allocations. Claim one to add it to your assigned deliveries.</p>
+
+            <div id="availPickupsLoading" class="vol-loading-state">
+                <div class="vol-spinner"></div>
+                <p>Loading available pickups...</p>
+            </div>
+            <div id="availPickupCards" class="delivery-cards-grid" style="display:none;"></div>
+            <div id="noAvailPickups" class="empty-state" style="display:none;">
+                <div class="empty-icon">✅</div>
+                <h3>No Available Pickups</h3>
+                <p>All current allocations have been assigned. Check back after new food allocations are made.</p>
+            </div>
+        </section>
+
+        <hr style="border:none; border-top:1px solid #e2e8f0; margin: 0 0 24px 0;">
+        <h2 style="font-size:1.15rem; font-weight:700; color:#1e293b; margin-bottom:16px;">📦 My Assigned Deliveries</h2>
+
+        <div class="filter-tabs-bar" style="margin-bottom: 24px;">
+            <button id="tabAll" class="filter-tab active" onclick="filterVolDeliveries('ALL', this)">
+                All <span class="tab-count" id="cntAll">0</span>
+            </button>
+            <button id="tabAssigned" class="filter-tab" onclick="filterVolDeliveries('ASSIGNED', this)">
+                Pending Pickup <span class="tab-count" id="cntAssigned">0</span>
+            </button>
+            <button id="tabPickedUp" class="filter-tab" onclick="filterVolDeliveries('PICKED_UP', this)">
+                In Transit <span class="tab-count" id="cntPickedUp">0</span>
+            </button>
+            <button id="tabDelivered" class="filter-tab" onclick="filterVolDeliveries('DELIVERED', this)">
+                Delivered <span class="tab-count" id="cntDelivered">0</span>
+            </button>
+            <button id="tabCancelled" class="filter-tab" onclick="filterVolDeliveries('CANCELLED', this)">
+                Cancelled <span class="tab-count" id="cntCancelled">0</span>
+            </button>
+        </div>
+
+        <!-- Loading -->
+        <div id="deliveriesLoading" class="vol-loading-state">
+            <div class="vol-spinner"></div>
+            <p>Loading deliveries...</p>
+        </div>
+
+        <!-- Delivery Cards Grid -->
+        <div id="deliveryCardsContainer" class="delivery-cards-grid" style="display:none;"></div>
+
+        <!-- Empty state -->
+        <div id="emptyDeliveries" class="empty-state" style="display:none;">
+            <div class="empty-icon">📭</div>
+            <h3 id="emptyDeliveriesTitle">No Deliveries Found</h3>
+            <p id="emptyDeliveriesMsg">No deliveries match the current filter.</p>
+        </div>
+
+    </main>
+
+    <!-- Claim Pickup Modal -->
+    <div id="claimPickupModal" class="modal-overlay" style="display:none;">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>🚗 Claim This Pickup?</h3>
+                <button class="modal-close" onclick="closeClaimModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <p>You are about to claim this pickup request. Once claimed, it will appear in your "My Assigned Deliveries" list and you'll be responsible for completing the pickup and delivery.</p>
+                <div id="claimPickupDetail" style="background:#f8fafc; border-radius:8px; padding:14px; margin-top:14px; font-size:14px;"></div>
+                <input type="hidden" id="claimDeliveryId">
+            </div>
+            <div class="modal-footer">
+                <button class="secondary-button" onclick="closeClaimModal()">Cancel</button>
+                <button class="primary-button" id="btnConfirmClaim" onclick="submitClaimPickup()">
+                    🚗 Yes, Claim This Pickup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pickup Confirmation Modal -->
+    <div id="pickupModal" class="modal-overlay" style="display:none;">
+
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>🚗 Confirm Pickup</h3>
+                <button class="modal-close" onclick="closePickupModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <p>Confirming that you have picked up the food donation from the donor location.</p>
+                <div class="form-group" style="margin-top:16px;">
+                    <label for="pickupRemarks">Remarks (optional)</label>
+                    <input type="text" id="pickupRemarks" placeholder="e.g. Food packed securely, 3 containers" maxlength="200">
+                </div>
+                <input type="hidden" id="pickupDeliveryId">
+            </div>
+            <div class="modal-footer">
+                <button class="secondary-button" onclick="closePickupModal()">Cancel</button>
+                <button class="primary-button" id="btnConfirmPickup" onclick="submitPickupConfirmation()">
+                    ✅ Confirm Pickup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delivery Confirmation Modal -->
+    <div id="deliverModal" class="modal-overlay" style="display:none;">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>🎉 Confirm Delivery</h3>
+                <button class="modal-close" onclick="closeDeliverModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <p>Confirming that you have successfully delivered the food to the NGO. This will mark the entire chain as complete.</p>
+                <div class="form-group" style="margin-top:16px;">
+                    <label for="deliverRemarks">Remarks (optional)</label>
+                    <input type="text" id="deliverRemarks" placeholder="e.g. Delivered to reception, 10 families served" maxlength="200">
+                </div>
+                <input type="hidden" id="deliverDeliveryId">
+            </div>
+            <div class="modal-footer">
+                <button class="secondary-button" onclick="closeDeliverModal()">Cancel</button>
+                <button class="primary-button" id="btnConfirmDeliver" onclick="submitDeliveryConfirmation()">
+                    🎉 Confirm Delivery
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 Food Rescue &amp; Donation Management System</p>
+    </footer>
+
+    <script src="../js/script.js"></script>
+
+</body>
+
+</html>

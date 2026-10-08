@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Available Food | Food Rescue</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header class="navbar">
+        <div class="logo">
+            <a href="../index.html" class="logo-link">♻ Food Rescue</a>
+        </div>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="my-requests.html">My Requests</a>
+            <a href="create-request.html">+ Request Food</a>
+            <a href="available-food.html" class="active">Available Food</a>
+            <a href="javascript:void(0)" onclick="logout()" class="nav-logout-btn">Logout</a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="dashboard">
+
+        <!-- Header -->
+        <div class="dashboard-header">
+            <div>
+                <h1>Available Surplus Food</h1>
+                <p>Browse edible food donations registered by restaurants and bakeries ready for community rescue.</p>
+            </div>
+
+            <div class="header-actions-group">
+                <div class="connection-status-container">
+                    <div id="backendStatusBadge" class="backend-status-badge checking">
+                        <span class="status-dot"></span> Checking connection...
+                    </div>
+                    <button type="button" id="btnCheckBackend" class="btn-check-backend" title="Test Backend Connection">
+                        🔄 Check Backend
+                    </button>
+                </div>
+
+                <a href="create-request.html" class="primary-button text-decoration-none">
+                    + Custom Food Request
+                </a>
+            </div>
+        </div>
+
+        <!-- Search Toolbar -->
+        <section class="toolbar-section">
+            <div class="search-box" style="max-width: 400px;">
+                <input
+                    type="text"
+                    id="searchAvailableFoodInput"
+                    placeholder="🔍 Search available food by name, type, or city..."
+                    oninput="searchAvailableFood(this.value)"
+                >
+            </div>
+
+            <div class="toolbar-summary">
+                <span id="availableFoodCountLabel">Loading available items...</span>
+            </div>
+        </section>
+
+        <!-- Food Cards Grid -->
+        <section class="dashboard-section">
+            <div id="availableFoodGrid" class="food-cards-grid">
+                <div class="table-loading" style="grid-column: 1 / -1;">
+                    <div class="loading-spinner"></div> Loading available surplus food donations...
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyAvailableFoodState" class="empty-state" style="display: none;">
+                <div class="empty-icon">🍱</div>
+                <h3>No Available Food Found</h3>
+                <p>There are no active surplus donations matching your search right now. Check back soon or post a custom food request.</p>
+                <a href="create-request.html" class="primary-button text-decoration-none display-inline-block" style="margin-top: 15px;">
+                    + Post a Food Request
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 Food Rescue & Donation Management System</p>
+    </footer>
+
+    <script src="../js/script.js"></script>
+</body>
+
+</html>

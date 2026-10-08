@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile & Notifications | Food Rescue</title>
+    <meta name="description" content="View and update your profile, change password, and check notifications.">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Dynamic navigation bar handled by script.js or static links -->
+    <header class="navbar">
+        <div class="logo">
+            <a href="index.html" class="logo-link">♻ Food Rescue</a>
+        </div>
+        <nav id="navLinks">
+            <a href="index.html">Home</a>
+            <a href="javascript:void(0)" onclick="redirectToRoleDashboard()">My Dashboard</a>
+            <a href="profile.html" class="active">Profile</a>
+            <a href="javascript:void(0)" onclick="logout()" class="nav-logout-btn">Logout</a>
+        </nav>
+    </header>
+
+    <main class="dashboard profile-container">
+        <div class="dashboard-header">
+            <div>
+                <h1>Account Profile & Settings</h1>
+                <p>Manage your account personal info, password, and view recent notifications.</p>
+            </div>
+            <div class="header-actions-group">
+                <div class="connection-status-container">
+                    <div id="backendStatusBadge" class="backend-status-badge checking">
+                        <span class="status-dot"></span> Checking backend...
+                    </div>
+                    <button type="button" id="btnCheckBackend" class="btn-check-backend">🔄 Check Backend</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-layout-grid">
+            <!-- Left Column: Profile Details & Password -->
+            <div class="profile-main-col">
+                <!-- User Information Card -->
+                <div class="profile-card">
+                    <div class="profile-card-header">
+                        <h2>👤 Personal & Organization Details</h2>
+                        <span id="profileRoleBadge" class="role-badge">ROLE</span>
+                    </div>
+                    <form id="profileForm" onsubmit="handleProfileUpdate(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="profName">Full Name *</label>
+                                <input type="text" id="profName" required placeholder="Your full name">
+                            </div>
+                            <div class="form-group">
+                                <label for="profEmail">Email Address (Read-only)</label>
+                                <input type="email" id="profEmail" disabled title="Email cannot be changed">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="profPhone">Phone Number</label>
+                                <input type="tel" id="profPhone" placeholder="e.g. 9876543210">
+                            </div>
+                            <div class="form-group">
+                                <label for="profCity">City</label>
+                                <input type="text" id="profCity" placeholder="e.g. Bangalore">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="profOrg">Organization / Restaurant / NGO Name</label>
+                            <input type="text" id="profOrg" placeholder="e.g. Hope Foundation, Fresh Bakery">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="profAddress">Physical Address / Pickup / Delivery Point</label>
+                            <input type="text" id="profAddress" placeholder="Street address, landmarks">
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" id="btnSaveProfile" class="primary-button">
+                                💾 Save Profile Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Password Change Card -->
+                <div class="profile-card" style="margin-top: 24px;">
+                    <div class="profile-card-header">
+                        <h2>🔒 Change Password</h2>
+                        <span style="font-size:12px; color:#64748b;">Min 6 characters</span>
+                    </div>
+                    <form id="passwordForm" onsubmit="handlePasswordChange(event)">
+                        <div class="form-group">
+                            <label for="currentPassword">Current Password *</label>
+                            <input type="password" id="currentPassword" required placeholder="Enter current password">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="newPassword">New Password *</label>
+                                <input type="password" id="newPassword" required minlength="6" placeholder="At least 6 characters">
+                            </div>
+                            <div class="form-group">
+                                <label for="confirmNewPassword">Confirm New Password *</label>
+                                <input type="password" id="confirmNewPassword" required minlength="6" placeholder="Re-enter new password">
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" id="btnSavePassword" class="secondary-button">
+                                🔑 Update Password
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Right Column: In-App Notifications Center (Phase I) -->
+            <div class="profile-side-col">
+                <div class="profile-card notif-card">
+                    <div class="profile-card-header">
+                        <h2>🔔 Recent Notifications</h2>
+                        <button type="button" class="btn-refresh-notif" onclick="loadUserNotifications()" title="Refresh Notifications">🔄</button>
+                    </div>
+                    <div id="notificationsLoading" class="vol-loading-state" style="padding: 20px;">
+                        <div class="vol-spinner"></div>
+                        <p>Checking notifications...</p>
+                    </div>
+                    <div id="notificationsList" class="notifications-list" style="display:none;"></div>
+                    <div id="notificationsEmpty" class="empty-state" style="display:none; padding: 25px 15px;">
+                        <div class="empty-icon">🔕</div>
+                        <h3>No new notifications</h3>
+                        <p>You are all caught up!</p>
+                    </div>
+                </div>
+
+                <!-- Account Security Info -->
+                <div class="profile-card info-summary-card" style="margin-top: 24px;">
+                    <h3>🛡️ Account Security</h3>
+                    <p style="font-size: 13px; color: #64748b; line-height: 1.6; margin-top: 8px;">
+                        Your credentials are protected with salted bcrypt password hashing and rate-limited API protection.
+                    </p>
+                    <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid #e2e8f0; font-size: 12px; color: #475569;">
+                        <strong>System Role:</strong> <span id="infoRoleText">—</span><br>
+                        <strong>User ID:</strong> <span id="infoUserIdText">—</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2026 Food Rescue &amp; Donation Management System</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

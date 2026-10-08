@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Add Food Donation | Food Rescue</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header class="navbar">
+
+        <div class="logo">
+            <a href="../index.html" class="logo-link">♻ Food Rescue</a>
+        </div>
+
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="my-donations.html">My Donations</a>
+            <a href="add-donation.html" class="active">+ Add Donation</a>
+            <a href="javascript:void(0)" onclick="logout()" class="nav-logout-btn">Logout</a>
+        </nav>
+
+    </header>
+
+
+    <!-- Donation Form -->
+
+    <main class="form-page">
+
+        <div class="form-container">
+
+            <div class="form-header">
+
+                <div class="header-top-row">
+                    <h1>Add Food Donation</h1>
+                    <div class="connection-status-container">
+                        <div id="backendStatusBadge" class="backend-status-badge checking">
+                            <span class="status-dot"></span> Checking connection...
+                        </div>
+                        <button type="button" id="btnCheckBackend" class="btn-check-backend" title="Test Backend Connection">
+                            🔄 Check Backend
+                        </button>
+                    </div>
+                </div>
+
+                <p>
+                    Register surplus food that is available
+                    for reuse and distribution.
+                </p>
+
+            </div>
+
+
+            <form id="donationForm">
+
+                <!-- Food Information -->
+
+                <div class="form-section">
+
+                    <h2>Food Information</h2>
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label for="foodName">
+                                Food Name
+                            </label>
+
+                            <input
+                                type="text"
+                                id="foodName"
+                                placeholder="Example: Cooked Rice"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="foodType">
+                                Food Type
+                            </label>
+
+                            <select id="foodType" required>
+
+                                <option value="">
+                                    Select food type
+                                </option>
+
+                                <option value="Prepared Food">
+                                    Prepared Food
+                                </option>
+
+                                <option value="Bakery">
+                                    Bakery
+                                </option>
+
+                                <option value="Fruits">
+                                    Fruits
+                                </option>
+
+                                <option value="Vegetables">
+                                    Vegetables
+                                </option>
+
+                                <option value="Packaged Food">
+                                    Packaged Food
+                                </option>
+
+                                <option value="Other">
+                                    Other
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label for="quantity">
+                                Quantity
+                            </label>
+
+                            <input
+                                type="number"
+                                id="quantity"
+                                placeholder="Example: 20"
+                                min="1"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="unit">
+                                Unit
+                            </label>
+
+                            <select id="unit" required>
+
+                                <option value="">
+                                    Select unit
+                                </option>
+
+                                <option value="kg">
+                                    Kilograms (kg)
+                                </option>
+
+                                <option value="litres">
+                                    Litres
+                                </option>
+
+                                <option value="packs">
+                                    Packs
+                                </option>
+
+                                <option value="pieces">
+                                    Pieces
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Time Information -->
+
+                <div class="form-section">
+
+                    <h2>Food Timing</h2>
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label for="preparedAt">
+                                Prepared Date & Time
+                            </label>
+
+                            <input
+                                type="datetime-local"
+                                id="preparedAt"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="expiryAt">
+                                Expiry Date & Time
+                            </label>
+
+                            <input
+                                type="datetime-local"
+                                id="expiryAt"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Pickup Information -->
+
+                <div class="form-section">
+
+                    <h2>Pickup Information</h2>
+
+                    <div class="form-group">
+
+                        <label for="pickupLocation">
+                            Pickup Location
+                        </label>
+
+                        <input
+                            type="text"
+                            id="pickupLocation"
+                            placeholder="Enter pickup address"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="description">
+                            Description
+                        </label>
+
+                        <textarea
+                            id="description"
+                            rows="4"
+                            placeholder="Add any additional information about the food..."
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Form Buttons -->
+
+                <div class="form-actions">
+
+                    <a
+                        href="dashboard.html"
+                        class="cancel-button"
+                    >
+                        Cancel
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="primary-button"
+                    >
+                        Add Donation
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+
+    <!-- Footer -->
+
+    <footer>
+
+        <p>
+            © 2026 Food Rescue & Donation Management System
+        </p>
+
+    </footer>
+
+
+    <script src="../js/script.js"></script>
+
+</body>
+
+</html>

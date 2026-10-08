@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Food | Food Rescue</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header class="navbar">
+        <div class="logo">
+            <a href="../index.html" class="logo-link">♻ Food Rescue</a>
+        </div>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="my-requests.html">My Requests</a>
+            <a href="create-request.html" class="active">+ Request Food</a>
+            <a href="available-food.html">Available Food</a>
+            <a href="javascript:void(0)" onclick="logout()" class="nav-logout-btn">Logout</a>
+        </nav>
+    </header>
+
+    <!-- Request Form Page -->
+    <main class="form-page">
+        <div class="form-container">
+            
+            <div class="form-header">
+                <div class="header-top-row">
+                    <h1>Request Food Donation</h1>
+                    <div class="connection-status-container">
+                        <div id="backendStatusBadge" class="backend-status-badge checking">
+                            <span class="status-dot"></span> Checking connection...
+                        </div>
+                        <button type="button" id="btnCheckBackend" class="btn-check-backend" title="Test Backend Connection">
+                            🔄 Check Backend
+                        </button>
+                    </div>
+                </div>
+                <p>Submit required food quantities and delivery schedules for your organization or community.</p>
+            </div>
+
+            <form id="foodRequestForm">
+
+                <!-- Food Requirements -->
+                <div class="form-section">
+                    <h2>Food Details</h2>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="reqFoodName">Food Name / Description *</label>
+                            <input
+                                type="text"
+                                id="reqFoodName"
+                                placeholder="Example: Cooked Meals, Fresh Bread, Rice"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="reqFoodType">Food Type</label>
+                            <select id="reqFoodType" required>
+                                <option value="Prepared Food">Prepared Food / Meals</option>
+                                <option value="Bakery">Bakery & Breads</option>
+                                <option value="Vegetables">Fresh Vegetables</option>
+                                <option value="Fruits">Fruits</option>
+                                <option value="Packaged Food">Packaged & Canned Food</option>
+                                <option value="Groceries">Raw Groceries / Grains</option>
+                                <option value="Other">Other / Any</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="reqQuantity">Quantity Required *</label>
+                            <input
+                                type="number"
+                                id="reqQuantity"
+                                placeholder="Example: 30"
+                                min="1"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="reqUnit">Unit *</label>
+                            <select id="reqUnit" required>
+                                <option value="kg">Kilograms (kg)</option>
+                                <option value="packs">Packs</option>
+                                <option value="meals">Meals / Portions</option>
+                                <option value="pieces">Pieces</option>
+                                <option value="litres">Litres</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timing & Urgency -->
+                <div class="form-section">
+                    <h2>Schedule & Urgency</h2>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="reqRequiredBy">Required By Date & Time *</label>
+                            <input
+                                type="datetime-local"
+                                id="reqRequiredBy"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="reqPriority">Urgency / Priority Level *</label>
+                            <select id="reqPriority" required>
+                                <option value="HIGH">🔴 High (Needed within 24 hours)</option>
+                                <option value="URGENT">🚨 Urgent (Immediate / Today)</option>
+                                <option value="MEDIUM" selected>🟡 Medium (Within 2-3 days)</option>
+                                <option value="LOW">⚪ Low (General requirement)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Destination Location -->
+                <div class="form-section">
+                    <h2>Delivery Destination</h2>
+
+                    <div class="form-group">
+                        <label for="reqDeliveryLocation">Delivery Address *</label>
+                        <input
+                            type="text"
+                            id="reqDeliveryLocation"
+                            placeholder="Enter shelter, center, or distribution point address"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reqNotes">Special Instructions / Remarks</label>
+                        <textarea
+                            id="reqNotes"
+                            rows="3"
+                            placeholder="E.g., vegetarian only, refrigeration available on site, contact person at gate..."
+                        ></textarea>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="form-actions">
+                    <a href="dashboard.html" class="cancel-button">
+                        Cancel
+                    </a>
+                    <button type="submit" class="primary-button">
+                        Submit Food Request
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 Food Rescue & Donation Management System</p>
+    </footer>
+
+    <script src="../js/script.js"></script>
+</body>
+
+</html>

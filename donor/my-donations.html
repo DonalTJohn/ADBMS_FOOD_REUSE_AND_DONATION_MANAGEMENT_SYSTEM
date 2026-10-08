@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Food Donations | Food Rescue</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header class="navbar">
+        <div class="logo">
+            <a href="../index.html" class="logo-link">♻ Food Rescue</a>
+        </div>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="my-donations.html" class="active">My Donations</a>
+            <a href="add-donation.html">+ Add Donation</a>
+            <a href="javascript:void(0)" onclick="logout()" class="nav-logout-btn">Logout</a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="dashboard">
+
+        <!-- Page Header -->
+        <div class="dashboard-header">
+            <div>
+                <h1>My Food Donations</h1>
+                <p>Track, manage, and monitor the status of all your registered surplus food donations.</p>
+            </div>
+
+            <div class="header-actions-group">
+                <div class="connection-status-container">
+                    <div id="backendStatusBadge" class="backend-status-badge checking">
+                        <span class="status-dot"></span> Checking connection...
+                    </div>
+                    <button type="button" id="btnCheckBackend" class="btn-check-backend" title="Test Backend Connection">
+                        🔄 Check Backend
+                    </button>
+                </div>
+
+                <a href="add-donation.html" class="primary-button text-decoration-none">
+                    + Add New Donation
+                </a>
+            </div>
+        </div>
+
+        <!-- Filter & Search Toolbar -->
+        <section class="toolbar-section">
+            <div class="filter-tabs">
+                <button type="button" class="filter-tab active" onclick="filterDonations('ALL', this)">
+                    All (<span id="countAll">0</span>)
+                </button>
+                <button type="button" class="filter-tab" onclick="filterDonations('AVAILABLE', this)">
+                    🟢 Available (<span id="countAvailable">0</span>)
+                </button>
+                <button type="button" class="filter-tab" onclick="filterDonations('ALLOCATED', this)">
+                    🟡 Allocated (<span id="countAllocated">0</span>)
+                </button>
+                <button type="button" class="filter-tab" onclick="filterDonations('COMPLETED', this)">
+                    🔵 Completed (<span id="countCompleted">0</span>)
+                </button>
+                <button type="button" class="filter-tab" onclick="filterDonations('EXPIRED', this)">
+                    🔴 Wasted / Expired (<span id="countWasted">0</span>)
+                </button>
+                <button type="button" class="filter-tab" onclick="filterDonations('CANCELLED', this)">
+                    ⚪ Cancelled (<span id="countCancelled">0</span>)
+                </button>
+            </div>
+
+            <div class="search-box">
+                <input
+                    type="text"
+                    id="searchDonationInput"
+                    placeholder="🔍 Search by food name or location..."
+                    oninput="searchDonations(this.value)"
+                >
+            </div>
+        </section>
+
+        <!-- Donations Table Section -->
+        <section class="dashboard-section">
+            <div class="table-container">
+                <table id="myDonationsTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Food Details</th>
+                            <th>Quantity</th>
+                            <th>Timings</th>
+                            <th>Pickup Location</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="myDonationsTableBody">
+                        <tr>
+                            <td colspan="7" class="table-loading">
+                                <div class="loading-spinner"></div> Loading your donations...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Empty State Container -->
+            <div id="emptyDonationsState" class="empty-state" style="display: none;">
+                <div class="empty-icon">🍱</div>
+                <h3>No Donations Found</h3>
+                <p>You have not registered any food donations matching this criteria yet.</p>
+                <a href="add-donation.html" class="primary-button text-decoration-none display-inline-block" style="margin-top: 15px;">
+                    + Register Food Donation
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 Food Rescue & Donation Management System</p>
+    </footer>
+
+    <script src="../js/script.js"></script>
+</body>
+
+</html>

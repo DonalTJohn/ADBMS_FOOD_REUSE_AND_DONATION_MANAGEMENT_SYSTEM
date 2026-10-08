@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Food Rescue</title>
+    <meta name="description" content="Admin analytics dashboard for the Food Rescue & Donation Management System.">
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Chart.js for analytics charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo"><a href="../index.html" class="logo-link">♻ Food Rescue</a></div>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="dashboard.html" class="active">Admin Dashboard</a>
+            <a href="allocations.html">Allocations</a>
+            <a href="deliveries.html">Deliveries</a>
+            <a href="history.html">History</a>
+            <a href="users.html">Users</a>
+            <a href="javascript:void(0)" onclick="logout()" class="nav-logout-btn">Logout</a>
+        </nav>
+    </header>
+
+    <main class="dashboard admin-dashboard-page">
+
+        <!-- Dedicated Admin Command Center Header -->
+        <div class="dashboard-header admin-hero-header">
+            <div>
+                <div class="admin-badge-row">
+                    <span class="admin-role-badge">🛡️ ADMIN COMMAND CENTER</span>
+                    <span class="system-status-indicator">● System Online &amp; Secure</span>
+                </div>
+                <h1>Platform Administration &amp; Analytics</h1>
+                <p id="adminWelcome">System-wide monitoring, food surplus allocation controls, and user management.</p>
+            </div>
+            <div class="header-actions-group">
+                <div class="connection-status-container">
+                    <div id="backendStatusBadge" class="backend-status-badge checking">
+                        <span class="status-dot"></span> Checking...
+                    </div>
+                    <button type="button" id="btnCheckBackend" class="btn-check-backend">🔄 Check Backend</button>
+                </div>
+                <a href="allocations.html" class="primary-button text-decoration-none">
+                    ⚡ Allocations Studio
+                </a>
+            </div>
+        </div>
+
+        <!-- Platform Stats -->
+        <section class="dashboard-stats admin-stats-grid">
+            <div class="dashboard-card admin-kpi-card" style="border-top:4px solid #2e7d32;">
+                <h3>Total Users</h3>
+                <h2 id="kpiUsers">—</h2>
+                <p id="kpiUsersBreakdown">Loading...</p>
+            </div>
+            <div class="dashboard-card admin-kpi-card" style="border-top:4px solid #0ea5e9;">
+                <h3>Donations</h3>
+                <h2 id="kpiDonations">—</h2>
+                <p id="kpiDonationsBreakdown">Loading...</p>
+            </div>
+            <div class="dashboard-card admin-kpi-card" style="border-top:4px solid #f59e0b;">
+                <h3>Requests</h3>
+                <h2 id="kpiRequests">—</h2>
+                <p id="kpiRequestsBreakdown">Loading...</p>
+            </div>
+            <div class="dashboard-card admin-kpi-card" style="border-top:4px solid #7c3aed;">
+                <h3>Allocations</h3>
+                <h2 id="kpiAllocations">—</h2>
+                <p>Total matched pairs</p>
+            </div>
+            <div class="dashboard-card admin-kpi-card" style="border-top:4px solid #e11d48;">
+                <h3>Deliveries</h3>
+                <h2 id="kpiDeliveries">—</h2>
+                <p id="kpiDeliveriesBreakdown">Loading...</p>
+            </div>
+            <div class="dashboard-card admin-kpi-card" style="border-top:4px solid #059669;">
+                <h3>Food Rescued</h3>
+                <h2 id="kpiFoodRescued">—</h2>
+                <p>kg / units distributed</p>
+            </div>
+        </section>
+
+        <!-- Charts Row -->
+        <div class="admin-charts-grid">
+
+            <div class="chart-card">
+                <h3 class="chart-title">Donations by Status</h3>
+                <div class="chart-wrapper">
+                    <canvas id="chartDonationStatus"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <h3 class="chart-title">Requests by Priority</h3>
+                <div class="chart-wrapper">
+                    <canvas id="chartRequestPriority"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <h3 class="chart-title">Allocations (Last 7 Days)</h3>
+                <div class="chart-wrapper">
+                    <canvas id="chartAllocTrend"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <h3 class="chart-title">Users by Role</h3>
+                <div class="chart-wrapper">
+                    <canvas id="chartUserRoles"></canvas>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Recent Activity Feed -->
+        <section class="dashboard-section">
+            <div class="section-heading">
+                <h2>Recent Activity</h2>
+                <a href="history.html">Full History</a>
+            </div>
+            <div id="activityFeedLoading" class="vol-loading-state" style="padding:30px;">
+                <div class="vol-spinner"></div>
+                <p>Loading activity...</p>
+            </div>
+            <div id="activityFeed" class="activity-feed" style="display:none;"></div>
+        </section>
+
+        <!-- Quick Links -->
+        <section class="quick-actions">
+            <h2>Management</h2>
+            <div class="action-grid">
+                <div class="action-card">
+                    <h3>👥 User Management</h3>
+                    <p>View and manage all registered donors, NGOs, and volunteers.</p>
+                    <a href="users.html" class="primary-button text-decoration-none display-inline-block">Manage Users</a>
+                </div>
+                <div class="action-card">
+                    <h3>🔗 Allocations Studio</h3>
+                    <p>Manually match donations to NGO requests or run auto-match.</p>
+                    <a href="allocations.html" class="secondary-button text-decoration-none display-inline-block">Open Studio</a>
+                </div>
+                <div class="action-card">
+                    <h3>🚚 Delivery Tracker</h3>
+                    <p>Monitor all volunteer pickup and delivery assignments.</p>
+                    <a href="deliveries.html" class="secondary-button text-decoration-none display-inline-block">Track Deliveries</a>
+                </div>
+                <div class="action-card">
+                    <h3>📜 Distribution History</h3>
+                    <p>Full audit trail of every food rescue operation.</p>
+                    <a href="history.html" class="secondary-button text-decoration-none display-inline-block">View History</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer><p>© 2026 Food Rescue &amp; Donation Management System</p></footer>
+    <script src="../js/script.js"></script>
+</body>
+</html>

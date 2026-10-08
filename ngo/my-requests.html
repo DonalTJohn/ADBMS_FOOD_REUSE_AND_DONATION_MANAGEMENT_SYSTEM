@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Food Requests | Food Rescue</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header class="navbar">
+        <div class="logo">
+            <a href="../index.html" class="logo-link">♻ Food Rescue</a>
+        </div>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="my-requests.html" class="active">My Requests</a>
+            <a href="create-request.html">+ Request Food</a>
+            <a href="available-food.html">Available Food</a>
+            <a href="javascript:void(0)" onclick="logout()" class="nav-logout-btn">Logout</a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="dashboard">
+
+        <!-- Header -->
+        <div class="dashboard-header">
+            <div>
+                <h1>My Food Requests</h1>
+                <p>Track, manage, and monitor the fulfillment status of all your NGO food requests.</p>
+            </div>
+
+            <div class="header-actions-group">
+                <div class="connection-status-container">
+                    <div id="backendStatusBadge" class="backend-status-badge checking">
+                        <span class="status-dot"></span> Checking connection...
+                    </div>
+                    <button type="button" id="btnCheckBackend" class="btn-check-backend" title="Test Backend Connection">
+                        🔄 Check Backend
+                    </button>
+                </div>
+
+                <a href="create-request.html" class="primary-button text-decoration-none">
+                    + New Food Request
+                </a>
+            </div>
+        </div>
+
+        <!-- Filter & Search Toolbar -->
+        <section class="toolbar-section">
+            <div class="filter-tabs">
+                <button type="button" class="filter-tab active" onclick="filterNgoRequests('ALL', this)">
+                    All (<span id="countReqAll">0</span>)
+                </button>
+                <button type="button" class="filter-tab" onclick="filterNgoRequests('PENDING', this)">
+                    🟡 Pending (<span id="countReqPending">0</span>)
+                </button>
+                <button type="button" class="filter-tab" onclick="filterNgoRequests('ALLOCATED', this)">
+                    🟢 Allocated (<span id="countReqAllocated">0</span>)
+                </button>
+                <button type="button" class="filter-tab" onclick="filterNgoRequests('FULFILLED', this)">
+                    🔵 Fulfilled (<span id="countReqFulfilled">0</span>)
+                </button>
+                <button type="button" class="filter-tab" onclick="filterNgoRequests('CANCELLED', this)">
+                    ⚪ Cancelled (<span id="countReqCancelled">0</span>)
+                </button>
+            </div>
+
+            <div class="search-box">
+                <input
+                    type="text"
+                    id="searchRequestInput"
+                    placeholder="🔍 Search requests by food or address..."
+                    oninput="searchNgoRequests(this.value)"
+                >
+            </div>
+        </section>
+
+        <!-- Requests Table -->
+        <section class="dashboard-section">
+            <div class="table-container">
+                <table id="ngoRequestsTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Food Requested</th>
+                            <th>Quantity</th>
+                            <th>Required By</th>
+                            <th>Priority</th>
+                            <th>Delivery Location</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ngoRequestsTableBody">
+                        <tr>
+                            <td colspan="8" class="table-loading">
+                                <div class="loading-spinner"></div> Loading your food requests...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Empty State Container -->
+            <div id="emptyRequestsState" class="empty-state" style="display: none;">
+                <div class="empty-icon">🍲</div>
+                <h3>No Requests Found</h3>
+                <p>No food requests match your current selection criteria.</p>
+                <a href="create-request.html" class="primary-button text-decoration-none display-inline-block" style="margin-top: 15px;">
+                    + Submit New Request
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 Food Rescue & Donation Management System</p>
+    </footer>
+
+    <script src="../js/script.js"></script>
+</body>
+
+</html>

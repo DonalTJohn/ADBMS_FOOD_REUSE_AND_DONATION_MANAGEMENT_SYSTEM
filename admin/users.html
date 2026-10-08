@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management | Food Rescue Admin</title>
+    <meta name="description" content="Manage all registered users — donors, NGOs, volunteers, and admins.">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo"><a href="../index.html" class="logo-link">♻ Food Rescue</a></div>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="dashboard.html">Admin Dashboard</a>
+            <a href="allocations.html">Allocations</a>
+            <a href="deliveries.html">Deliveries</a>
+            <a href="history.html">History</a>
+            <a href="users.html" class="active">Users</a>
+            <a href="javascript:void(0)" onclick="logout()" class="nav-logout-btn">Logout</a>
+        </nav>
+    </header>
+
+    <main class="dashboard">
+
+        <div class="dashboard-header">
+            <div>
+                <h1>User Management</h1>
+                <p>View, activate, or deactivate all registered users on the platform.</p>
+            </div>
+        </div>
+
+        <!-- Role Filter Tabs -->
+        <div class="filter-tabs-bar" style="margin-bottom:20px; gap:10px; flex-wrap:wrap;">
+            <button class="filter-tab active" id="userTabAll" onclick="filterUsers('ALL', this)">
+                All <span class="tab-count" id="ucntAll">0</span>
+            </button>
+            <button class="filter-tab" id="userTabDonor" onclick="filterUsers('DONOR', this)">
+                Donors <span class="tab-count" id="ucntDonor">0</span>
+            </button>
+            <button class="filter-tab" id="userTabNGO" onclick="filterUsers('NGO', this)">
+                NGOs <span class="tab-count" id="ucntNGO">0</span>
+            </button>
+            <button class="filter-tab" id="userTabVolunteer" onclick="filterUsers('VOLUNTEER', this)">
+                Volunteers <span class="tab-count" id="ucntVolunteer">0</span>
+            </button>
+            <button class="filter-tab" id="userTabAdmin" onclick="filterUsers('ADMIN', this)">
+                Admin <span class="tab-count" id="ucntAdmin">0</span>
+            </button>
+            <input type="text" id="userSearch" class="search-input"
+                placeholder="🔍 Search by name or email..."
+                oninput="searchUsers(this.value)" style="min-width:220px; margin-left:auto;">
+        </div>
+
+        <!-- Loading -->
+        <div id="usersLoading" class="vol-loading-state">
+            <div class="vol-spinner"></div>
+            <p>Loading users...</p>
+        </div>
+
+        <!-- Users Table -->
+        <div class="table-container" id="usersTableWrapper" style="display:none;">
+            <table id="usersTable">
+                <thead>
+                    <tr>
+                        <th>#ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Role</th>
+                        <th>Organization</th>
+                        <th>City</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="usersTableBody"></tbody>
+            </table>
+        </div>
+
+        <!-- Empty State -->
+        <div id="usersEmpty" class="empty-state" style="display:none;">
+            <div class="empty-icon">👥</div>
+            <h3>No Users Found</h3>
+            <p>No users match the current filter.</p>
+        </div>
+
+    </main>
+
+    <footer><p>© 2026 Food Rescue &amp; Donation Management System</p></footer>
+    <script src="../js/script.js"></script>
+</body>
+</html>

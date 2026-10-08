@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donor Dashboard | Food Rescue</title>
+    <meta name="description" content="Donor dashboard to manage surplus food donations, prevent waste, and track community impact.">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header class="navbar">
+        <div class="logo">
+            <a href="../index.html" class="logo-link">♻ Food Rescue</a>
+        </div>
+
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="dashboard.html" class="active">Dashboard</a>
+            <a href="my-donations.html">My Donations</a>
+            <a href="add-donation.html">+ Add Donation</a>
+            <a href="../profile.html">⚙️ Profile</a>
+            <a href="javascript:void(0)" onclick="logout()" class="nav-logout-btn">Logout</a>
+        </nav>
+    </header>
+
+    <!-- Main Dashboard -->
+    <main class="dashboard donor-dashboard-page">
+
+        <!-- Dedicated Donor Hero Header -->
+        <div class="dashboard-header donor-hero-header">
+            <div>
+                <div class="donor-badge-row">
+                    <span class="donor-role-badge">🍽️ DONOR SURPLUS HUB</span>
+                    <span class="donor-status-indicator">● Kitchen &amp; Surplus Portal Active</span>
+                </div>
+                <h1>Food Donor Operations &amp; Surplus Management</h1>
+                <p id="donorWelcomeMsg">Welcome back! Manage surplus edible food, monitor live NGO allocations, and eliminate food waste.</p>
+            </div>
+
+            <div class="header-actions-group">
+                <div class="connection-status-container">
+                    <div id="backendStatusBadge" class="backend-status-badge checking">
+                        <span class="status-dot"></span> Checking connection...
+                    </div>
+                    <button type="button" id="btnCheckBackend" class="btn-check-backend" title="Test Backend Connection">
+                        🔄 Check Backend
+                    </button>
+                </div>
+
+                <a href="add-donation.html" class="primary-button text-decoration-none">
+                    + Add Donation
+                </a>
+            </div>
+        </div>
+
+        <!-- Food Safety & Expiration Notice -->
+        <div class="info-banner expiry-policy-banner">
+            <div class="banner-icon">⏱️</div>
+            <div class="banner-text">
+                <strong>Food Freshness &amp; Expiration Policy:</strong>
+                Surplus food that reaches its expiry time before allocation or completed delivery is automatically marked as 
+                <span class="badge-inline-wasted">Wasted (Expired)</span> to guarantee food safety for receiving communities.
+            </div>
+            <button type="button" class="btn-sweep-expiry" onclick="triggerManualExpiryCheck()" title="Re-check Expiration Status">
+                🔄 Check Expiry
+            </button>
+        </div>
+
+        <!-- Statistics (5 Cards including Wasted) -->
+        <section class="dashboard-stats donor-stats-grid">
+
+            <div class="dashboard-card donor-kpi-card" style="border-top: 4px solid #2e7d32;">
+                <h3>Total Donations</h3>
+                <h2 id="donorStatTotal">—</h2>
+                <p>All time surplus batches</p>
+            </div>
+
+            <div class="dashboard-card donor-kpi-card" style="border-top: 4px solid #f59e0b;">
+                <h3>Available</h3>
+                <h2 id="donorStatAvailable">—</h2>
+                <p>Ready for NGO match</p>
+            </div>
+
+            <div class="dashboard-card donor-kpi-card" style="border-top: 4px solid #0ea5e9;">
+                <h3>Allocated</h3>
+                <h2 id="donorStatAllocated">—</h2>
+                <p>In route / Delivery</p>
+            </div>
+
+            <div class="dashboard-card donor-kpi-card" style="border-top: 4px solid #16a34a;">
+                <h3>Delivered</h3>
+                <h2 id="donorStatCompleted">—</h2>
+                <p>Beneficiaries fed</p>
+            </div>
+
+            <div class="dashboard-card donor-kpi-card" style="border-top: 4px solid #e11d48;">
+                <h3>Wasted (Expired)</h3>
+                <h2 id="donorStatWasted">—</h2>
+                <p>Expired before delivery</p>
+            </div>
+
+        </section>
+
+        <!-- Recent Donations Section -->
+        <section class="dashboard-section">
+            <div class="section-heading">
+                <h2>Recent Donations &amp; Status</h2>
+                <a href="my-donations.html">View All &amp; Filter</a>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Food Item</th>
+                            <th>Quantity</th>
+                            <th>Category</th>
+                            <th>Freshness / Expiry</th>
+                            <th>Pickup Location</th>
+                            <th>Lifecycle Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="donorRecentTableBody">
+                        <tr>
+                            <td colspan="6" class="table-loading">
+                                <div class="loading-spinner"></div> Loading your donations...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Quick Actions Grid -->
+        <section class="quick-actions">
+            <h2>Quick Actions</h2>
+            <div class="action-grid">
+                <div class="action-card">
+                    <h3>🍲 Add New Donation</h3>
+                    <p>Post leftover edible food with expiry time and pickup address.</p>
+                    <a href="add-donation.html" class="primary-button text-decoration-none display-inline-block">
+                        Add Food
+                    </a>
+                </div>
+
+                <div class="action-card">
+                    <h3>📋 Manage Donations</h3>
+                    <p>Track allocation status, filter active items, or cancel unallocated surplus.</p>
+                    <a href="my-donations.html" class="secondary-button text-decoration-none display-inline-block">
+                        My Donations
+                    </a>
+                </div>
+
+                <div class="action-card">
+                    <h3>⚙️ Profile &amp; Notifications</h3>
+                    <p>Update your restaurant/organization details and check live activity alerts.</p>
+                    <a href="../profile.html" class="secondary-button text-decoration-none display-inline-block">
+                        Account Settings
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 Food Rescue &amp; Donation Management System</p>
+    </footer>
+
+    <script src="../js/script.js"></script>
+
+</body>
+
+</html>

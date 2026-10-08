@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Distribution History | Food Rescue Admin</title>
+    <meta name="description" content="Complete history of all food distributions from donors through volunteers to NGOs.">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo"><a href="../index.html" class="logo-link">♻ Food Rescue</a></div>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="dashboard.html">Admin Dashboard</a>
+            <a href="allocations.html">Allocations</a>
+            <a href="deliveries.html">Deliveries</a>
+            <a href="history.html" class="active">History</a>
+            <a href="users.html">Users</a>
+            <a href="javascript:void(0)" onclick="logout()" class="nav-logout-btn">Logout</a>
+        </nav>
+    </header>
+
+    <main class="dashboard">
+
+        <div class="dashboard-header">
+            <div>
+                <h1>Distribution History</h1>
+                <p>Complete audit trail of all food rescue operations — from donation to final distribution.</p>
+            </div>
+        </div>
+
+        <!-- System Stats Banner -->
+        <section class="dashboard-stats" id="historyStatsRow">
+            <div class="dashboard-card" style="border-top:4px solid #2e7d32;">
+                <h3>Total Distributions</h3>
+                <h2 id="hstatDist">—</h2>
+                <p>Completed distributions</p>
+            </div>
+            <div class="dashboard-card" style="border-top:4px solid #0ea5e9;">
+                <h3>Food Allocated</h3>
+                <h2 id="hstatAllocated">—</h2>
+                <p>Total kg/units matched</p>
+            </div>
+            <div class="dashboard-card" style="border-top:4px solid #7c3aed;">
+                <h3>Food Distributed</h3>
+                <h2 id="hstatDistributed">—</h2>
+                <p>Reached beneficiaries</p>
+            </div>
+            <div class="dashboard-card" style="border-top:4px solid #f59e0b;">
+                <h3>Deliveries Done</h3>
+                <h2 id="hstatDeliveries">—</h2>
+                <p>Volunteer completions</p>
+            </div>
+        </section>
+
+        <!-- Filters Row -->
+        <div class="filter-tabs-bar" style="margin-bottom:20px;">
+            <input type="text" id="historySearch" class="search-input"
+                placeholder="🔍 Search by food, donor, NGO or volunteer..."
+                oninput="searchHistory(this.value)" style="min-width:280px;">
+        </div>
+
+        <!-- Loading -->
+        <div id="historyLoading" class="vol-loading-state">
+            <div class="vol-spinner"></div>
+            <p>Loading distribution history...</p>
+        </div>
+
+        <!-- History Table -->
+        <div class="table-container" id="historyTableWrapper" style="display:none;">
+            <table id="historyTable">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Food</th>
+                        <th>Qty</th>
+                        <th>Donor</th>
+                        <th>NGO Recipient</th>
+                        <th>Volunteer</th>
+                        <th>Location</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="historyTableBody"></tbody>
+            </table>
+        </div>
+
+        <!-- Empty State -->
+        <div id="historyEmpty" class="empty-state" style="display:none;">
+            <div class="empty-icon">📜</div>
+            <h3>No Distribution Records Found</h3>
+            <p>Distribution records will appear here once food deliveries are completed.</p>
+        </div>
+
+    </main>
+
+    <footer><p>© 2026 Food Rescue &amp; Donation Management System</p></footer>
+    <script src="../js/script.js"></script>
+</body>
+</html>

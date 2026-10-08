@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Food Rescue & Donation Management System</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="auth-body">
+
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="logo">
+            <a href="index.html" class="logo-link">♻ Food Rescue</a>
+        </div>
+        <nav id="mainNav">
+            <a href="index.html">Home</a>
+            <a href="index.html#about">About</a>
+            <a href="index.html#how-it-works">How It Works</a>
+            <a href="register.html" class="nav-btn-highlight">Register</a>
+        </nav>
+    </header>
+
+    <!-- Auth Page Main -->
+    <main class="auth-page">
+        <div class="auth-container">
+            
+            <!-- Form Header & Status Bar -->
+            <div class="auth-header">
+                <div class="header-top-row">
+                    <div class="auth-icon-title">
+                        <span class="auth-icon">🔐</span>
+                        <h1>Sign In</h1>
+                    </div>
+                    <div class="connection-status-container">
+                        <div id="backendStatusBadge" class="backend-status-badge checking">
+                            <span class="status-dot"></span> Checking connection...
+                        </div>
+                        <button type="button" id="btnCheckBackend" class="btn-check-backend" title="Test Backend Connection">
+                            🔄 Check Backend
+                        </button>
+                    </div>
+                </div>
+                <p>Welcome back! Sign in to access your donation portal.</p>
+            </div>
+
+            <!-- Demo Quick-Fill Bar -->
+            <div class="demo-accounts-card">
+                <div class="demo-title">
+                    <span>⚡ Quick Demo Logins:</span>
+                </div>
+                <div class="demo-chips">
+                    <button type="button" class="demo-chip" onclick="fillDemoLogin('abc@restaurant.com', 'donor123')">
+                        🍽️ Donor (ABC Restaurant)
+                    </button>
+                    <button type="button" class="demo-chip" onclick="fillDemoLogin('hope@ngo.com', 'ngo123')">
+                        🤝 NGO (Hope Foundation)
+                    </button>
+                    <button type="button" class="demo-chip" onclick="fillDemoLogin('rahul@volunteer.com', 'vol123')">
+                        🚴 Volunteer (Rahul)
+                    </button>
+                    <button type="button" class="demo-chip" onclick="fillDemoLogin('admin@foodrescue.com', 'admin123')">
+                        🛡️ Admin
+                    </button>
+                </div>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="auth-form" novalidate>
+                <div class="form-group">
+                    <label for="loginEmail">Email Address</label>
+                    <div class="input-with-icon">
+                        <span class="input-icon">✉️</span>
+                        <input
+                            type="email"
+                            id="loginEmail"
+                            placeholder="e.g. abc@restaurant.com"
+                            required
+                            autocomplete="email"
+                        >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="label-row">
+                        <label for="loginPassword">Password</label>
+                        <a href="javascript:void(0)" class="forgot-link" onclick="showNotification('For password resets in development, you can use the demo accounts above or register a new account.', 'info')">Forgot?</a>
+                    </div>
+                    <div class="input-with-icon">
+                        <span class="input-icon">🔒</span>
+                        <input
+                            type="password"
+                            id="loginPassword"
+                            placeholder="Enter your password"
+                            required
+                            autocomplete="current-password"
+                        >
+                        <button type="button" class="btn-toggle-password" onclick="togglePasswordVisibility('loginPassword', this)">
+                            👁️
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-row-between">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="rememberMe" checked>
+                        <span>Remember me on this device</span>
+                    </label>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="primary-button btn-auth-submit">
+                        Sign In to Portal
+                    </button>
+                </div>
+            </form>
+
+            <div class="auth-footer-links">
+                <p>Don't have an account yet? <a href="register.html">Create a free account</a></p>
+                <p><a href="index.html">← Back to Home</a></p>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 Food Rescue & Donation Management System</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>
